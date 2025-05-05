@@ -2,6 +2,8 @@
 /dist
 /node_modules
 /build
+/postgres/
+
 
 # Logs
 logs
@@ -11,6 +13,7 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
 
 # OS
 .DS_Store
@@ -35,6 +38,14 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+!/postgres/init.sql
+!/postgres/migrations/
+/postgres/logs/
+/postgres/dumps/
+/postgres/data/
+
+
+
 # dotenv environment variable files
 .env
 .env.development.local
@@ -45,6 +56,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+.gitignore
 
 # Runtime data
 pids
