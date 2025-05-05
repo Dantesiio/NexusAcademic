@@ -9,9 +9,6 @@ async function bootstrap() {
     .setTitle('Course Management API')
     .setDescription('API for managing courses, students, and submissions')
     .setVersion('1.0')
-    .addTag('courses')
-    .addTag('students')
-    .addTag('submissions')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
