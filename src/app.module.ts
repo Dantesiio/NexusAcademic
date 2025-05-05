@@ -20,7 +20,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
 
-      synchronize: false //Solo usarla en ambientes bajos, en producción hacer migraciones
+      synchronize: true //Solo usarla en ambientes bajos, en producción hacer migraciones
     }),
     StudentsModule,
     CommonsModule,
