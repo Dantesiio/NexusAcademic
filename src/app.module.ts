@@ -5,6 +5,8 @@ import { StudentsModule } from './students/students.module';
 import { CommonsModule } from './commons/commons.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
+import { CoursesModule } from './courses/courses.module';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -17,12 +19,15 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-      synchronize: true //Solo usarla en ambientes bajos, en producción hacer migraciones
+
+      synchronize: false //Solo usarla en ambientes bajos, en producción hacer migraciones
     }),
     StudentsModule,
     CommonsModule,
     SeedModule,
-    AuthModule
+    AuthModule,
+    CoursesModule,
+    SubmissionsModule,
   ],
   controllers: [],
   providers: [],
