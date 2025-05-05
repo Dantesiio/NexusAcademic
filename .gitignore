@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /build
+/postgres
 
 # Logs
 logs
@@ -45,6 +46,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+.gitignore
 
 # Runtime data
 pids
