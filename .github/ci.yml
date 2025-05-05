@@ -1,14 +1,12 @@
-name: CI - Test NestJS
+name: NEXUSACADEMIC
 
 on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
 
 jobs:
   run-tests:
