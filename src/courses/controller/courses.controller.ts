@@ -30,6 +30,7 @@ export class CoursesController {
 
   @Post()
   @Auth(ValidRoles.admin, ValidRoles.superUser)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Crear un nuevo curso (admin o super-user)' })
   @ApiBody({ type: CreateCourseDto })
   @ApiResponse({ status: 201, description: 'Curso creado correctamente.' })
@@ -40,6 +41,7 @@ export class CoursesController {
 
   @Get()
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Listar todos los cursos (teacher o admin)' })
   @ApiResponse({ status: 200, description: 'Lista de cursos retornada.' })
   findAll() {
@@ -48,6 +50,7 @@ export class CoursesController {
 
   @Get(':id')
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Obtener un curso por UUID (teacher o admin)' })
   @ApiParam({ name: 'id', description: 'UUID del curso' })
   @ApiResponse({ status: 200, description: 'Curso encontrado.' })
@@ -58,6 +61,7 @@ export class CoursesController {
 
   @Put(':id')
   @Auth(ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Actualizar un curso por UUID (solo admin)' })
   @ApiParam({ name: 'id', description: 'UUID del curso' })
   @ApiBody({ type: UpdateCourseDto })
@@ -72,6 +76,7 @@ export class CoursesController {
 
   @Delete(':id')
   @Auth(ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Eliminar un curso por UUID (solo admin)' })
   @ApiParam({ name: 'id', description: 'UUID del curso' })
   @ApiResponse({ status: 200, description: 'Curso eliminado correctamente.' })

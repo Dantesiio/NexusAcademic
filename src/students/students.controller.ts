@@ -24,6 +24,7 @@ export class StudentsController {
 
   @Post()
   @Auth(ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Crear un nuevo estudiante (Requiere rol admin)' })
   @ApiResponse({ status: 201, description: 'Estudiante creado correctamente.' })
   @ApiResponse({ status: 400, description: 'Datos inválidos en el payload.' })
@@ -34,6 +35,7 @@ export class StudentsController {
 
   @Get()
   @Auth(ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Obtener lista de estudiantes (requiere rol admin)' })
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Número máximo de resultados' })
   @ApiQuery({ name: 'offset', required: false, type: Number, description: 'Desplazamiento para paginación' })

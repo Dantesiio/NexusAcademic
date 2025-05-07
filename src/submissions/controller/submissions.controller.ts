@@ -29,6 +29,7 @@ export class SubmissionsController {
 
   @Post()
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Crear una nueva entrega (teacher o admin)' })
   @ApiBody({ type: CreateSubmissionDto })
   @ApiResponse({ status: 201, description: 'Entrega creada correctamente.' })
@@ -39,6 +40,7 @@ export class SubmissionsController {
 
   @Get()
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Listar todas las entregas (teacher o admin)' })
   @ApiResponse({ status: 200, description: 'Lista de entregas retornada.' })
   findAll() {
@@ -47,6 +49,7 @@ export class SubmissionsController {
 
   @Get(':id')
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Obtener una entrega por UUID (teacher o admin)' })
   @ApiParam({ name: 'id', description: 'UUID de la entrega' })
   @ApiResponse({ status: 200, description: 'Entrega encontrada.' })
@@ -57,6 +60,7 @@ export class SubmissionsController {
 
   @Put(':id/grade')
   @Auth(ValidRoles.teacher, ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Calificar una entrega (teacher o admin)' })
   @ApiParam({ name: 'id', description: 'UUID de la entrega a calificar' })
   @ApiBody({ type: GradeSubmissionDto })
@@ -68,6 +72,7 @@ export class SubmissionsController {
 
   @Delete(':id')
   @Auth(ValidRoles.admin)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Eliminar una entrega por UUID (solo admin)' })
   @ApiParam({ name: 'id', description: 'UUID de la entrega' })
   @ApiResponse({ status: 200, description: 'Entrega eliminada correctamente.' })
