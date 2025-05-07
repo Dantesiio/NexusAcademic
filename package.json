@@ -89,6 +89,11 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
+    "coverageReporters": [
+    "text",
+    "text-summary",
+    "json-summary"
+  ],
     "coverageThreshold": {
       "global": {
         "statements": 80,
