@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { Submission } from '../entities/submission.entity';
 import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { GradeSubmissionDto } from '../dto/grade-submission.dto';
-import { CoursesService } from 'src/courses/service/courses.service';
-import { StudentsService } from 'src/students/students.service';
+import { CoursesService } from '../../courses/service/courses.service';
+import { StudentsService } from '../../students/students.service';
 
 @Injectable()
 export class SubmissionsService {
