@@ -7,7 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { BadRequestException, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateStudentDto } from '../../src/students/dto/create-student.dto';
 import { UpdateStudentDto } from '../../src/students/dto/update-student.dto';
-import { PaginationDto } from '../../src/commons/dto/pagination.dto';
+import { PaginationDto } from 'src/commons/dto/pagination.dto';
 
 describe('StudentsService', () => {
   let service: StudentsService;

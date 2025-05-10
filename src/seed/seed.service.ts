@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { StudentsService } from '../../src/students/students.service';
+import { StudentsService } from 'src/students/students.service';
 import { initialData } from './data/seed-data';
-import { Student } from '../../src/students/entities/student.entity';
+import { Student } from 'src/students/entities/student.entity';
 
 @Injectable()
 export class SeedService {
