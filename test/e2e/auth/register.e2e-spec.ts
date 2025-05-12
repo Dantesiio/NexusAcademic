@@ -22,20 +22,27 @@ const testingCreateUser = {
     let app: INestApplication;
     let userRepository: Repository<User>;
   
-    beforeEach(async () => {
-      const moduleFixture: TestingModule = await Test.createTestingModule({
-        imports: [AppModule],
-      }).compile();
-  
-      app = moduleFixture.createNestApplication();
-      app.useGlobalPipes(
-        new ValidationPipe({
-          whitelist: true,
-          forbidNonWhitelisted: true,
-        }),
-      );
-      await app.init();
-      userRepository = app.get<Repository<User>>(getRepositoryToken(User));
+   beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    
+    // Important: Set the global prefix as in main.ts
+    app.setGlobalPrefix('api');
+    
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    );
+
+    await app.init();
+
+    userRepository = app.get<Repository<User>>(getRepositoryToken(User));
     });
   
     afterEach(async () => {
@@ -43,8 +50,8 @@ const testingCreateUser = {
       await app.close();
     });
   
-    it('/auth/register (POST) - no body', async () => {
-      const response = await request(app.getHttpServer()).post('/auth/register');
+    it('/api/auth/register (POST) - no body', async () => {
+      const response = await request(app.getHttpServer()).post('/api/auth/register');
   
       const errorMessages = [
         "email must be an email",
@@ -63,11 +70,11 @@ const testingCreateUser = {
       });
     });
   
-    it('/auth/register (POST) - same email', async () => {
-      await request(app.getHttpServer()).post('/auth/register').send(testingUser);
+    it('/api/auth/register (POST) - same email', async () => {
+      await request(app.getHttpServer()).post('/api/auth/register').send(testingUser);
   
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send(testingUser);
   
       expect(response.status).toBe(400);
@@ -78,9 +85,9 @@ const testingCreateUser = {
       });
     });
   
-    it('/auth/register (POST) - unsafe password', async () => {
+    it('/api/auth/register (POST) - unsafe password', async () => {
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send({
           ...testingUser,
           password: 'abc123',
@@ -96,9 +103,9 @@ const testingCreateUser = {
       });
     });
   
-    it('/auth/register (POST) - valid credentials', async () => {
+    it('/api/auth/register (POST) - valid credentials', async () => {
       const response = await request(app.getHttpServer())
-        .post('/auth/register')
+        .post('/api/auth/register')
         .send(testingUser);
   
       expect(response.status).toBe(201);
