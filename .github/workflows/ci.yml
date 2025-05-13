@@ -28,3 +28,30 @@ jobs:
       
     - name: Display coverage summary
       run: cat ./coverage/coverage-summary.json | jq '.total'
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Railway CLI
+        run: npm install -g railway
+
+      - name: Authenticate Railway
+        env:
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+        run: railway login --apiKey $RAILWAY_API_KEY
+
+      - name: Select Railway project
+        env:
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: railway use $RAILWAY_PROJECT_ID
+
+      - name: Deploy to Railway
+        env:
+          # Railway toma las env vars que ya configuraste en su dashboard
+          RAILWAY_ENVIRONMENT: ${{ secrets.RAILWAY_ENVIRONMENT }}
+        run: railway up --environment $RAILWAY_ENVIRONMENT --detach
