@@ -1,177 +1,214 @@
+
+---
+
 # NexusAcademic - Sistema de Gestión Académica
 
-## Integrantes
-- [David Donneys](https://github.com/Dantesiio)
-- [Jhonatan Castaño](https://github.com/JhonatanCI)
-- [Andrés Pino](https://github.com/AndresPin0)
+## 👥 Integrantes
 
-## Descripción del Proyecto
+* [David Donneys](https://github.com/Dantesiio)
+* [Jhonatan Castaño](https://github.com/JhonatanCI)
+* [Andrés Pino](https://github.com/AndresPin0)
 
-NexusAcademic es una plataforma de gestión académica que permite la administración de cursos, estudiantes y profesores. El sistema está construido utilizando Next.js para el frontend y una API RESTful para el backend, con una base de datos PostgreSQL para la persistencia de datos.
+## 📌 Descripción del Proyecto
 
-## Requisitos Previos
+**NexusAcademic** es una plataforma de gestión académica que permite administrar cursos, estudiantes y profesores. El sistema está desarrollado con **Next.js** (frontend), una **API RESTful** (backend) y **PostgreSQL** como base de datos.
 
-- Node.js (v22 o superior)
-- Docker y Docker Compose
-- npm
+---
 
-## Instalación y Configuración
+## ⚙️ Requisitos Previos
 
-1. Clonar el repositorio:
+* Node.js v22 o superior
+* Docker y Docker Compose
+* npm
+
+---
+
+## 🧪 Instalación y Configuración
+
+1. **Clonar el repositorio:**
+
+   ```bash
+   git clone https://github.com/Dantesiio/NexusAcademic.git
+   cd NexusAcademic
+   ```
+
+2. **Instalar dependencias:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configurar variables de entorno:**
+
+   * Crear un archivo `.env` en la raíz del proyecto.
+   * Copiar el contenido de `.env.example` y ajustar las variables necesarias:
+
+     ```env
+     # Base de datos
+     DB_HOST=localhost
+     DB_PORT=5432
+     DB_NAME=nexusacademic
+     DB_USERNAME=postgres
+     DB_PASSWORD=postgres
+
+     # JWT
+     JWT_SECRET="prueba"
+
+     # Puerto de la aplicación
+     PORT=3000
+     ```
+
+4. **Iniciar la base de datos con Docker Compose:**
+
+   ```bash
+   docker-compose up -d
+   docker-compose ps
+   ```
+
+5. **Inicialización automática de la base de datos:**
+
+   * Se utiliza `synchronize: true` de TypeORM en modo desarrollo.
+
+6. **Iniciar el servidor de desarrollo:**
+
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 🚀 Funcionalidades Implementadas
+
+### 🔐 Autenticación y Autorización
+
+* Login con JWT
+* Protección de rutas según rol de usuario
+* Sesiones seguras
+
+### 👤 Gestión de Usuarios
+
+* Registro de usuarios
+* Roles: Administrador, Profesor, Estudiante
+* Edición de perfil
+
+### 📚 Gestión Académica
+
+* **Cursos:**
+
+  * Crear/editar cursos
+  * Asignar profesores
+  * Inscribir estudiantes
+* **Calificaciones:**
+
+  * Registro por profesores
+  * Consulta por estudiantes
+
+### 📡 API RESTful
+
+Principales endpoints:
+
+* `/api/auth/*`: Autenticación
+* `/api/users/*`: Usuarios
+* `/api/courses/*`: Cursos
+* `/api/grades/*`: Calificaciones
+
+---
+
+## ⚙️ Implementación Técnica
+
+### 🔒 Autenticación
+
+* Tokens JWT
+* Middleware para rutas protegidas
+
+### 🛡️ Autorización
+
+* Roles con RBAC
+* Middleware de permisos
+
+### 🗃️ Persistencia
+
+* ORM: TypeORM
+* Base de datos: PostgreSQL
+* Entidades: `User`, `Course`, `Enrollment`, `Grade`
+
+---
+
+## 🧪 Ejecución de Pruebas
+
+### 🧱 Preparación del entorno
+
 ```bash
-git clone https://github.com/Dantesiio/NexusAcademic.git
-cd NexusAcademic
-```
-
-2. Instalar dependencias:
-```bash
-npm install
-```
-
-3. Configurar variables de entorno:
-   - Crear un archivo `.env` en la raíz del proyecto
-   - Copiar el contenido de `.env.example` y configurar las variables necesarias:
-```env
-# Base de datos
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=nexusacademic
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-
-# JWT
-JWT_SECRET="prueba"
-
-# Puerto de la aplicación
-PORT=3000
-```
-
-4. Iniciar la base de datos con Docker Compose:
-```bash
-# Iniciar los servicios
-docker-compose up -d
-
-# Verificar que los contenedores estén corriendo
-docker-compose ps
-```
-
-5. La base de datos se inicializará automáticamente:
-   - TypeORM está configurado con `synchronize: true` en desarrollo
-   - Las entidades se crearán automáticamente en la base de datos
-
-6. Iniciar el servidor de desarrollo:
-```bash
-npm run dev
-```
-
-## Funcionalidades Implementadas
-
-### 1. Autenticación y Autorización
-
-- **Sistema de Login**: Implementado utilizando JWT
-  - Autenticación basada en credenciales (email/contraseña)
-  - Manejo de sesiones seguras
-  - Protección de rutas según rol de usuario
-
-### 2. Gestión de Usuarios
-
-- Registro de nuevos usuarios
-- Roles diferenciados (Administrador, Profesor, Estudiante)
-- Gestión de perfiles de usuario
-
-### 3. Gestión Académica
-
-- **Cursos**:
-  - Creación y edición de cursos
-  - Asignación de profesores
-  - Inscripción de estudiantes
-
-- **Calificaciones**:
-  - Registro de calificaciones por parte de profesores
-  - Visualización de calificaciones por estudiantes
-
-### 4. API RESTful
-
-La API implementa los siguientes endpoints principales:
-
-- `/api/auth/*` - Endpoints de autenticación
-- `/api/users/*` - Gestión de usuarios
-- `/api/courses/*` - Gestión de cursos
-- `/api/grades/*` - Gestión de calificaciones
-
-## Implementación Técnica
-
-### Autenticación
-
-- Utilización de JWT para manejo de sesiones
-- JWT para tokens de autenticación
-- Middleware de protección de rutas
-
-### Autorización
-
-- Sistema de roles implementado en la base de datos
-- Middleware de verificación de permisos
-- Control de acceso basado en roles (RBAC)
-
-### Persistencia de Datos
-
-- ORM: TypeORM
-- Base de datos: PostgreSQL
-- Modelos definidos:
-  - User
-  - Course
-  - Enrollment
-  - Grade
-
-# Ejecuccion de Pruebas
-Preparación del Entorno de Pruebas
-Antes de ejecutar las pruebas, necesitamos configurar el entorno de pruebas:
-bash# Iniciar la base de datos de pruebas
+# Iniciar la base de datos de pruebas
 npm run test:e2e:db:up
 
-# Inicializar la base de datos de pruebas (opcional, si es necesario reiniciar datos)
+# Inicializar o limpiar base de datos de pruebas
 npm run init:testdb
-Tipos de Pruebas y Cómo Ejecutarlas
-1. Pruebas Unitarias
-Las pruebas unitarias validan el funcionamiento de componentes individuales como servicios, controladores y entidades.
-bash# Ejecutar todas las pruebas unitarias
+```
+
+### 🔍 Tipos de Pruebas
+
+#### ✅ Pruebas Unitarias
+
+```bash
+# Todas las pruebas unitarias
 npm run test
 
-# Ejecutar pruebas unitarias de un módulo específico
+# Módulo específico
 npm test src/auth/auth.service.spec.ts
 
-# Ejecutar pruebas unitarias en modo watch (útil durante desarrollo)
+# Modo watch
 npm run test:watch
-2. Pruebas de Integración
-Las pruebas de integración validan la interacción entre diferentes módulos del sistema.
-bash# Las pruebas de integración están incluidas en los archivos .spec.ts
-# y se ejecutan junto con las pruebas unitarias
+```
+
+#### 🔗 Pruebas de Integración
+
+Se ejecutan junto a las pruebas unitarias:
+
+```bash
 npm run test
-3. Pruebas E2E (End-to-End)
-Las pruebas E2E validan los flujos completos de la aplicación, simulando las acciones de los usuarios.
-bash# Ejecutar todas las pruebas e2e
+```
+
+#### 🧪 Pruebas End-to-End (E2E)
+
+```bash
+# Todas las pruebas E2E
 npm run test:e2e
 
-# Ejecutar sólo las pruebas e2e de autenticación
+# Pruebas E2E específicas
 npm run test:e2e -- test/e2e/auth/login.e2e-spec.ts
 
-# Ejecutar pruebas e2e con un entorno limpio
+# Ejecutar E2E con base limpia
 npm run test:e2e:clean
 
-# Proceso completo (iniciar DB, ejecutar tests, detener DB)
+# Proceso completo
 npm run test:e2e:full
-4. Pruebas de Conexión a Base de Datos
-bash# Probar específicamente la conexión a la base de datos
-npm run test:e2e:db
-Verificación de Cobertura de Pruebas
-El proyecto requiere al menos 80% de cobertura de código. Para verificar la cobertura:
-bash# Ejecutar pruebas con informe de cobertura
-npm run test:cov
+```
 
-# Ver informe detallado
-# (Los resultados estarán disponibles en /coverage/lcov-report/index.html)
-La configuración de cobertura está definida en package.json:
-json"coverageThreshold": {
+#### 🔌 Pruebas de Conexión a la Base de Datos
+
+```bash
+npm run test:e2e:db
+```
+
+---
+
+### 📊 Cobertura de Pruebas
+
+Se requiere al menos un 80% de cobertura:
+
+```bash
+# Ver cobertura
+npm run test:cov
+```
+
+Informe disponible en:
+`/coverage/lcov-report/index.html`
+
+#### Configuración mínima (`package.json`):
+
+```json
+"coverageThreshold": {
   "global": {
     "statements": 50,
     "branches": 58,
@@ -179,43 +216,41 @@ json"coverageThreshold": {
     "lines": 50
   }
 }
-Solución de Problemas Comunes en las Pruebas
+```
 
-Error de Conexión a Base de Datos:
+---
 
-Verificar que el contenedor Docker de la BD de pruebas esté en ejecución
-Comprobar la configuración en docker-compose.test.yml
-Ejecutar npm run init:testdb para reiniciar la base de datos
+## 🛠️ Solución de Problemas
 
+### 1. ❌ Error de Conexión a la Base de Datos
 
-Fallos en Jest:
+* Verificar variables en `.env`
+* Confirmar que PostgreSQL esté corriendo
+* Validar URL de conexión y puertos
 
-Aumentar el timeout si hay pruebas que exceden el tiempo límite:
-jsjest.setTimeout(30000); // Aumentar a 30 segundos
+### 2. ❌ Problemas de Autenticación
 
+* Verificar JWT\_SECRET y expiración
+* Asegurarse de usar un token válido
 
+### 3. ❌ Problemas en Pruebas
 
-Conflictos con datos existentes:
+* **Fallos por timeout en Jest:**
 
-Limpiar la base de datos de pruebas antes de ejecutar pruebas E2E:
-bashnpm run init:testdb
+  ```js
+  jest.setTimeout(30000); // 30 segundos
+  ```
 
+* **Conflictos de datos:**
 
+  ```bash
+  npm run init:testdb
+  ```
 
-Pruebas que interfieren entre sí:
+* **Pruebas que interfieren entre sí:**
 
-Utilizar beforeEach y afterEach para limpiar datos entre pruebas
-Utilizar identificadores únicos para cada prueba (ej: ${Date.now()})
-## Solución de Problemas Comunes
+  * Usa `beforeEach` / `afterEach`
+  * Genera datos únicos con `${Date.now()}`
 
-1. **Error de Conexión a la Base de Datos**:
-   - Verificar credenciales en `.env`
-   - Confirmar que PostgreSQL está en ejecución
-   - Validar la URL de conexión
-
-2. **Problemas de Autenticación**:
-   - Verificar configuración de JWT
-   - Validar variables de entorno
-   - Verificar que el token JWT sea válido
-
+---
 
