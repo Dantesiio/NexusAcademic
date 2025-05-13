@@ -20,7 +20,10 @@ import { SubmissionsModule } from './submissions/submissions.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
 
-      synchronize: true //Solo usarla en ambientes bajos, en producción hacer migraciones
+      synchronize: true, //Solo usarla en ambientes bajos, en producción hacer migraciones
+      ssl: {
+        rejectUnauthorized: false, // Neon requiere esto
+      },
     }),
     StudentsModule,
     CommonsModule,
