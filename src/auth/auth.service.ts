@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -10,8 +10,9 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-
+  private readonly blacklistedTokens: Set<string> = new Set();
   private logger = new Logger('AuthService');
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -70,4 +71,34 @@ export class AuthService {
       throw new InternalServerErrorException('Unspected error, check your server');
     }
 
+  async invalidateToken(token: string) {
+    this.blacklistedTokens.add(token);
+    setTimeout(() => {
+      this.blacklistedTokens.delete(token);
+    }, 3600000);
+  }
+
+  isTokenBlacklisted(token: string): boolean {
+    return this.blacklistedTokens.has(token);
+  }
+
+  extractTokenFromHeader(authHeader: string): string | null {
+    const [type, token] = authHeader.split(' ');
+    return type === 'Bearer' ? token : null;
+  }
+
+  async logout(authHeader: string) {
+    const token = this.extractTokenFromHeader(authHeader);
+    if (!token) {
+      throw new UnauthorizedException('Token no proporcionado');
+    }
+    
+    try {
+      await this.jwtService.verifyAsync(token);
+      await this.invalidateToken(token);
+      return { message: 'Sesión cerrada exitosamente' };
+    } catch (error) {
+      throw new UnauthorizedException('Token inválido');
+    }
+  }
 }
