@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtStrategy } from '../../../src/auth/strategies/jwt.strategy';
-import { User } from '../../../src/auth/entities/user.entity';
+import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
+import { User } from 'src/auth/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { UnauthorizedException } from '@nestjs/common';

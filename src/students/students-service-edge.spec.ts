@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
-import { StudentsService } from '../../src/students/students.service';
-import { Student } from '../../src/students/entities/student.entity';
-import { Grade } from '../../src/students/entities/grade.entity';
+import { StudentsService } from 'src/students/students.service';
+import { Student } from 'src/students/entities/student.entity';
+import { Grade } from 'src/students/entities/grade.entity';
 import { DataSource, QueryRunner } from 'typeorm';
-import { UpdateStudentDto } from '../../src/students/dto/update-student.dto';
+import { UpdateStudentDto } from 'src/students/dto/update-student.dto';
 
 describe('StudentsService Edge Cases', () => {
   let service: StudentsService;

@@ -17,4 +17,5 @@ export class CreateAuthDto {
     @ApiProperty({ example: 'Juan Pérez', description: 'Nombre completo' })
     @IsString()
     fullName: string;
+    
 }

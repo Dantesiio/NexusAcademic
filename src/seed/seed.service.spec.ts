@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SeedService } from '../../src/seed/seed.service';
-import { StudentsService } from '../../src/students/students.service';
-import { initialData } from '../../src/seed/data/seed-data';
+import { SeedService } from 'src/seed/seed.service';
+import { StudentsService } from 'src/students/students.service';
+import { initialData } from 'src/seed/data/seed-data';
 
 describe('SeedService', () => {
   let service: SeedService;
