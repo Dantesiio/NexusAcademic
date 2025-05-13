@@ -62,8 +62,6 @@ docker-compose ps
 6. Iniciar el servidor de desarrollo:
 ```bash
 npm run dev
-# o
-yarn dev
 ```
 
 ## Funcionalidades Implementadas
@@ -132,6 +130,12 @@ La API implementa los siguientes endpoints principales:
 ```bash
 # Ejecutar todas las pruebas
 npm run test
+
+# Ejecutar pruebas con coverage
+npm run test:cov
+
+# Ejecutar pruebas e2e
+npm run test:e2e
 
 # Ejecutar pruebas específicas
 npm run test:unit
