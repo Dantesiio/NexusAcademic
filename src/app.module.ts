@@ -19,11 +19,13 @@ import { SubmissionsModule } from './submissions/submissions.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
-
-      synchronize: true, //Solo usarla en ambientes bajos, en producción hacer migraciones
-      ssl: {
-      rejectUnauthorized: false,
-      },
+      synchronize: true, 
+      // Only use SSL in non-test environments
+      ...(process.env.NODE_ENV !== 'test' && {
+        ssl: {
+          rejectUnauthorized: false,
+        }
+      }),
       
     }),
     StudentsModule,
