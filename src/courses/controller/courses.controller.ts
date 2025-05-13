@@ -21,6 +21,7 @@ import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { ValidRoles } from '../../auth/enums/valid-roles.enum';
+import { Course } from '../entities/course.entity';
 
 @ApiTags('Courses')
 @ApiBearerAuth('JWT-auth')

@@ -21,6 +21,7 @@ import { CreateSubmissionDto } from '../dto/create-submission.dto';
 import { GradeSubmissionDto } from '../dto/grade-submission.dto';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { ValidRoles } from '../../auth/enums/valid-roles.enum';
+import { Submission } from '../entities/submission.entity';
 
 @ApiTags('Submissions')
 @ApiBearerAuth('JWT-auth')
