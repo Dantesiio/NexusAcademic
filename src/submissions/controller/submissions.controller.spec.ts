@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubmissionsController } from 'src/submissions/controller/submissions.controller';
-import { SubmissionsService } from 'src/submissions/service/submissions.service';
-import { CreateSubmissionDto } from 'src/submissions/dto/create-submission.dto';
-import { GradeSubmissionDto } from 'src/submissions/dto/grade-submission.dto';
+import { SubmissionsController } from '../controller/submissions.controller';
+import { SubmissionsService } from '../service/submissions.service';
+import { CreateSubmissionDto } from '../dto/create-submission.dto';
+import { GradeSubmissionDto } from '../dto/grade-submission.dto';
 
 describe('SubmissionsController', () => {
   let controller: SubmissionsController;

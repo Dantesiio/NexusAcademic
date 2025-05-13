@@ -1,0 +1,11 @@
+services:
+  test-db:
+    image: postgres:14.3
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: prueba1_test
+      POSTGRES_USER: postgres
+    container_name: postgres_test_e2e

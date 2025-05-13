@@ -35,4 +35,5 @@ export class CreateAuthDto {
     @MinLength(1)
     @MaxLength(100)
     fullName: string;
+    
 }

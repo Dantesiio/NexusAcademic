@@ -14,17 +14,17 @@ import { SubmissionsModule } from './submissions/submissions.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
-      port: +!process.env.DB_PORT,
+      port: +(process.env.DB_PORT || 5432),
       database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
 
       synchronize: true, //Solo usarla en ambientes bajos, en producción hacer migraciones
-
-       ssl: {
-    rejectUnauthorized: false,
-  },
+      ssl: {
+      rejectUnauthorized: false,
+      },
+      
     }),
     StudentsModule,
     CommonsModule,
