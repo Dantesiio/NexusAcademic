@@ -11,9 +11,9 @@ NexusAcademic es una plataforma de gestión académica que permite la administra
 
 ## Requisitos Previos
 
-- Node.js (v18 o superior)
+- Node.js (v22 o superior)
 - Docker y Docker Compose
-- npm o yarn
+- npm
 
 ## Instalación y Configuración
 
