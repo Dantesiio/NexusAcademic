@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body} from '@nestjs/common';
+import { Controller, Get, Post, Body, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginUserDto } from './dto/Login-user.dto';
@@ -161,5 +161,36 @@ export class AuthController {
       user,
       message: 'Token válido'
     };
+  }
+
+  @Post('logout')
+  @Auth()
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ 
+    summary: 'Cerrar sesión',
+    description: 'Cierra la sesión del usuario actual e invalida el token JWT.\nURL: POST /api/auth/logout'
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Sesión cerrada exitosamente.',
+    schema: {
+      example: {
+        message: 'Sesión cerrada exitosamente'
+      }
+    }
+  })
+  @ApiResponse({ 
+    status: 401, 
+    description: 'No autorizado o token inválido.',
+    schema: {
+      example: {
+        statusCode: 401,
+        message: 'Token no válido o no proporcionado',
+        error: 'Unauthorized'
+      }
+    }
+  })
+  logout(@Headers('authorization') authHeader: string) {
+    return this.authService.logout(authHeader);
   }
 }
