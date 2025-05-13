@@ -1,11 +1,11 @@
 // src/students/students.module.spec.ts
 import { Test } from '@nestjs/testing';
-import { StudentsModule } from 'src/students/students.module';
-import { StudentsService } from 'src/students/students.service';
-import { StudentsController } from 'src/students/students.controller';
+import { StudentsModule } from '../students/students.module';
+import { StudentsService } from '../students/students.service';
+import { StudentsController } from '../students/students.controller';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Student } from 'src/students/entities/student.entity';
-import { Grade } from 'src/students/entities/grade.entity';
+import { Student } from '../students/entities/student.entity';
+import { Grade } from '../students/entities/grade.entity';
 import { DataSource } from 'typeorm';
 
 describe('StudentsModule', () => {

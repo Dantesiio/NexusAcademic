@@ -16,11 +16,11 @@ import {
   ApiParam,
   ApiBody,
 } from '@nestjs/swagger';
-import { CoursesService } from 'src/courses/service/courses.service';
-import { CreateCourseDto } from 'src/courses/dto/create-course.dto';
+import { CoursesService } from '../service/courses.service';
+import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
+import { Auth } from '../../auth/decorators/auth.decorator';
+import { ValidRoles } from '../../auth/enums/valid-roles.enum';
 
 @ApiTags('Courses')
 @ApiBearerAuth('JWT-auth')
