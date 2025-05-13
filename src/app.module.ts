@@ -12,19 +12,19 @@ import { SubmissionsModule } from './submissions/submissions.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +(process.env.DB_PORT || 5432),
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      autoLoadEntities: true,
+  type: 'postgres',
+  host: 'ep-fragrant-unit-a4takj03-pooler.us-east-1.aws.neon.tech',
+  port: 5432,
+  username: 'neondb_owner',
+  password: 'npg_e2dfKhxH5UNV',
+  database: 'neondb',
+  autoLoadEntities: true,
+  synchronize: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+}),
 
-      synchronize: true, //Solo usarla en ambientes bajos, en producción hacer migraciones
-      ssl: {
-        rejectUnauthorized: false, // Neon requiere esto
-      },
-    }),
     StudentsModule,
     CommonsModule,
     SeedModule,
