@@ -1,9 +1,9 @@
 # NexusAcademic - Sistema de Gestión Académica
 
 ## Integrantes
-- David Donneys
-- Jhonatan Castaño
-- Andrés Pino 
+- [David Donneys](https://github.com/Dantesiio)
+- [Jhonatan Castaño](https://github.com/JhonatanCI)
+- [Andrés Pino](https://github.com/AndresPin0)
 
 ## Descripción del Proyecto
 
