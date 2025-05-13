@@ -5,6 +5,8 @@ import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
+
   const config = new DocumentBuilder()
     .setTitle('Course Management API')
     .setDescription('API for managing courses, students, and submissions')
@@ -24,10 +26,14 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api-docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      baseUrl: '/api'
+    },
+    useGlobalPrefix: true
+  });
 
-
-  app.setGlobalPrefix('api')
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
