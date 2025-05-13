@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StudentsController } from '../../src/students/students.controller';
-import { StudentsService } from '../../src/students/students.service';
-import { CreateStudentDto } from '../../src/students/dto/create-student.dto';
-import { UpdateStudentDto } from '../../src/students/dto/update-student.dto';
-import { PaginationDto } from '../../src/commons/dto/pagination.dto';
+import { StudentsController } from 'src/students/students.controller';
+import { StudentsService } from 'src/students/students.service';
+import { CreateStudentDto } from 'src/students/dto/create-student.dto';
+import { UpdateStudentDto } from 'src/students/dto/update-student.dto';
+import { PaginationDto } from 'src/commons/dto/pagination.dto';
 
 describe('StudentsController', () => {
   let controller: StudentsController;

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserRoleGuard } from '../../../../src/auth/guards/user-role/user-role.guard';
+import { UserRoleGuard } from 'src/auth/guards/user-role/user-role.guard';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContext, BadRequestException, ForbiddenException } from '@nestjs/common';
-import { META_ROLES } from '../../../../src/auth/decorators/role-protected/role-protected.decorator';
-import { ValidRoles } from '../../../../src/auth/enums/valid-roles.enum';
+import { META_ROLES } from 'src/auth/decorators/role-protected/role-protected.decorator';
+import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
 
 describe('UserRoleGuard', () => {
   let guard: UserRoleGuard;

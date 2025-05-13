@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubmissionsService } from '../../../src/submissions/service/submissions.service';
+import { SubmissionsService } from 'src/submissions/service/submissions.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Submission } from '../../../src/submissions/entities/submission.entity';
-import { CreateSubmissionDto } from '../../../src/submissions/dto/create-submission.dto';
-import { GradeSubmissionDto } from '../../../src/submissions/dto/grade-submission.dto';
-import { CoursesService } from '../../../src/courses/service/courses.service';
-import { StudentsService } from '../../../src/students/students.service';
+import { Submission } from 'src/submissions/entities/submission.entity';
+import { CreateSubmissionDto } from 'src/submissions/dto/create-submission.dto';
+import { GradeSubmissionDto } from 'src/submissions/dto/grade-submission.dto';
+import { CoursesService } from 'src/courses/service/courses.service';
+import { StudentsService } from 'src/students/students.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { CourseStatus } from '../../../src/courses/enums/course-status.enum';
+import { CourseStatus } from 'src/courses/enums/course-status.enum';
 
 describe('SubmissionsService', () => {
   let service: SubmissionsService;

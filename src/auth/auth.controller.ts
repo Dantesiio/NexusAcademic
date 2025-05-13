@@ -17,7 +17,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Registrar un nuevo usuario' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito.' })
   @ApiBearerAuth('JWT-auth')
-  @Auth(ValidRoles.admin, ValidRoles.superUser)
+  //@Auth(ValidRoles.admin, ValidRoles.superUser)
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
   }

@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from '../../src/auth/auth.service';
-import { User } from '../../src/auth/entities/user.entity';
+import { AuthService } from 'src/auth/auth.service';
+import { User } from 'src/auth/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BadRequestException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { CreateAuthDto } from '../../src/auth/dto/create-auth.dto';
-import { LoginUserDto } from '../../src/auth/dto/Login-user.dto';
+import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { LoginUserDto } from 'src/auth/dto/Login-user.dto';
 import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {

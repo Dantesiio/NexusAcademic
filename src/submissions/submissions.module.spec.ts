@@ -1,12 +1,12 @@
 // src/submissions/submissions.module.spec.ts
 import { Test } from '@nestjs/testing';
-import { SubmissionsModule } from '../../src/submissions/submissions.module';
-import { SubmissionsService } from '../../src/submissions/service/submissions.service';
-import { SubmissionsController } from '../../src/submissions/controller/submissions.controller';
+import { SubmissionsModule } from 'src/submissions/submissions.module';
+import { SubmissionsService } from 'src/submissions/service/submissions.service';
+import { SubmissionsController } from 'src/submissions/controller/submissions.controller';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Submission } from '../../src/submissions/entities/submission.entity';
-import { CoursesService } from '../../src/courses/service/courses.service';
-import { StudentsService } from '../../src/students/students.service';
+import { Submission } from 'src/submissions/entities/submission.entity';
+import { CoursesService } from 'src/courses/service/courses.service';
+import { StudentsService } from 'src/students/students.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 

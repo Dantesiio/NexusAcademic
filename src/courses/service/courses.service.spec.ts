@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CoursesService } from '../../../src/courses/service/courses.service';
-import { Course } from '../../../src/courses/entities/course.entity';
-import { User } from '../../../src/auth/entities/user.entity';
+import { CoursesService } from 'src/courses/service/courses.service';
+import { Course } from 'src/courses/entities/course.entity';
+import { User } from 'src/auth/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
