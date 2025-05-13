@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from '../../src/students/students.module';
 import { CommonsModule } from '../../src/commons/commons.module';
@@ -11,22 +11,18 @@ import { SubmissionsModule } from '../../src/submissions/submissions.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.test',
       isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        autoLoadEntities: true,
-        synchronize: true, // Es seguro usar true en pruebas
-      }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5433,           
+      username: 'postgres',
+      password: 'postgres', // Debe coincidir con la contraseña del Docker
+      database: 'prueba1_test',
+      autoLoadEntities: true,
+      synchronize: true,
+      logging: false,
     }),
     StudentsModule,
     CommonsModule,

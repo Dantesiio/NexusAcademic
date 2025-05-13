@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StudentsService } from 'src/students/students.service';
-import { Student } from 'src/students/entities/student.entity';
-import { Grade } from 'src/students/entities/grade.entity';
+import { StudentsService } from '../students/students.service';
+import { Student } from '../students/entities/student.entity';
+import { Grade } from '../students/entities/grade.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { BadRequestException, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-import { CreateStudentDto } from 'src/students/dto/create-student.dto';
-import { UpdateStudentDto } from 'src/students/dto/update-student.dto';
-import { PaginationDto } from 'src/commons/dto/pagination.dto';
+import { CreateStudentDto } from '../students/dto/create-student.dto';
+import { UpdateStudentDto } from '../students/dto/update-student.dto';
+import { PaginationDto } from '../commons/dto/pagination.dto';
 
 describe('StudentsService', () => {
   let service: StudentsService;

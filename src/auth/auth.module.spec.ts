@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
-import { AuthModule } from 'src/auth/auth.module';
-import { AuthService } from 'src/auth/auth.service';
-import { AuthController } from 'src/auth/auth.controller';
-import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
+import { AuthModule } from './auth.module';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from './entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 
 // Mock del ConfigService para evitar cargar variables de entorno reales
