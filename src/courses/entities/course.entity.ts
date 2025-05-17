@@ -8,7 +8,7 @@ import {
   Unique,
   OneToMany,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from '../../auth/entities/user.entity';
 import { CourseStatus } from '../enums/course-status.enum';
 import { Enrollment } from 'src/students/entities/enrollment.entity';
@@ -62,14 +62,14 @@ export class Course {
 
   @ApiProperty({
     description: 'Fecha de inicio del curso',
-    example: '2023-01-01',
+    example: '2025-05-10',
   })
   @Column('date')
   startDate: Date;
 
   @ApiProperty({
     description: 'Fecha de finalización del curso',
-    example: '2023-06-01',
+    example: '2025-06-10',
   })
   @Column('date')
   endDate: Date;
@@ -88,6 +88,10 @@ export class Course {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
-enrollments: Enrollment[];
+  @ApiPropertyOptional({
+    description: 'Lista de matrículas de este curso',
+    type: () => [Enrollment],
+  })
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course, { eager: true })
+  enrollments: Enrollment[];
 }
