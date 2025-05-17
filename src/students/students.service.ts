@@ -1,110 +1,124 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+
+import { Student } from './entities/student.entity';
+import { Enrollment } from './entities/enrollment.entity';// Asegúrate que esté bien la ruta
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Student } from './entities/student.entity';
-import { DataSource, Repository } from 'typeorm';
 import { PaginationDto } from 'src/commons/dto/pagination.dto';
-import { NotFoundError } from 'rxjs';
+
 import { isUUID } from 'class-validator';
-import { Grade } from './entities/grade.entity';
 
 @Injectable()
 export class StudentsService {
+  private logger = new Logger('StudentsService');
 
-  private logger = new Logger('StudentService');
   constructor(
     @InjectRepository(Student)
     private readonly studentRepository: Repository<Student>,
-    @InjectRepository(Grade)
-    private readonly gradeRepository: Repository<Grade>,
-    private readonly dataSource: DataSource
-  ){}
+
+    @InjectRepository(Enrollment)
+    private readonly enrollmentRepository: Repository<Enrollment>,
+
+    private readonly dataSource: DataSource,
+  ) {}
 
   async create(createStudentDto: CreateStudentDto) {
-    try{
-      const { grades=[], ...studentDetails }  = createStudentDto;
+    try {
+      const { enrollments = [], ...studentDetails } = createStudentDto;
 
       const student = this.studentRepository.create({
         ...studentDetails,
-        grades : grades.map( grade => this.gradeRepository.create(grade))
+        enrollments: enrollments.map((enrollment) =>
+          this.enrollmentRepository.create(enrollment),
+        ),
       });
+
       await this.studentRepository.save(student);
       return student;
-
-    }catch(error){
-      this.logger.error(error.detail);
+    } catch (error) {
+      this.logger.error(error);
       this.handleExceptions(error);
     }
   }
 
   async findAll(paginationDto: PaginationDto) {
-    try{
-      const {limit=10, offset=0 } = paginationDto;
+    try {
+      const { limit = 10, offset = 0 } = paginationDto;
       return await this.studentRepository.find({
         take: limit,
-        skip: offset
+        skip: offset,
+        relations: ['enrollments'],
       });
-    }catch(error){
+    } catch (error) {
       this.handleExceptions(error);
     }
   }
 
   async findOne(term: string) {
-
     let student: Student | null;
 
-    if(isUUID(term)){
-      student = await this.studentRepository.findOneBy({ id: term });
-    }else{
+    if (isUUID(term)) {
+      student = await this.studentRepository.findOne({
+        where: { id: term },
+        relations: ['enrollments'],
+      });
+    } else {
       const queryBuilder = this.studentRepository.createQueryBuilder('student');
-      student = await queryBuilder.where('UPPER(name)=:name or nickname=:nickname',{
-        name: term.toUpperCase(),
-        nickname: term.toLowerCase()
-      })
-      .leftJoinAndSelect('student.grades', 'studentGrades')
-      .getOne();
+      student = await queryBuilder
+        .where('UPPER(student.name) = :name OR student.nickname = :nickname', {
+          name: term.toUpperCase(),
+          nickname: term.toLowerCase(),
+        })
+        .leftJoinAndSelect('student.enrollments', 'studentEnrollments')
+        .getOne();
     }
 
+    if (!student)
+      throw new NotFoundException(`Student with ${term} not found`);
 
-      if(!student)
-        throw new NotFoundException(`Student with ${term} not found`);
-
-      return student;
-    
+    return student;
   }
 
   async update(id: string, updateStudentDto: UpdateStudentDto) {
-
-    const {grades, ...studentDetails} = updateStudentDto;
+    const { enrollments, ...studentDetails } = updateStudentDto;
 
     const student = await this.studentRepository.preload({
-      id:id,
-      ...studentDetails
-    })
+      id,
+      ...studentDetails,
+    });
 
-    if(!student) throw new NotFoundException(`Student with id ${id} not found`);
+    if (!student)
+      throw new NotFoundException(`Student with id ${id} not found`);
 
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    try{
+    try {
+      if (enrollments) {
+        await queryRunner.manager.delete(Enrollment, { student: { id } });
 
-      if(grades){
-        await queryRunner.manager.delete(Grade, {student: {id}});
-        student.grades = grades.map( grade => this.gradeRepository.create(grade));
+        student.enrollments = enrollments.map((enrollment) =>
+          this.enrollmentRepository.create(enrollment),
+        );
       }
 
       await queryRunner.manager.save(student);
       await queryRunner.commitTransaction();
-      await queryRunner.release();
-
       return await this.findOne(id);
-    }catch(error){
+    } catch (error) {
       await queryRunner.rollbackTransaction();
-      await queryRunner.release();
       this.handleExceptions(error);
+    } finally {
+      await queryRunner.release();
     }
   }
 
@@ -113,24 +127,20 @@ export class StudentsService {
     await this.studentRepository.remove(student);
   }
 
-  private handleExceptions(error: any){
-    if(error.code === "23505")
-      throw new BadRequestException(error.detail);
-
-    this.logger.error(error.detail);
-    throw new InternalServerErrorException('Unspected error, check your server');
-  }
-
-  deleteAllStudents(){
+  async deleteAllStudents() {
     const query = this.studentRepository.createQueryBuilder();
-    try{
-      return query
-      .delete()
-      .where({})
-      .execute();
-    }catch(error){
+    try {
+      return query.delete().where({}).execute();
+    } catch (error) {
       this.handleExceptions(error);
     }
   }
 
+  private handleExceptions(error: any) {
+    if (error.code === '23505')
+      throw new BadRequestException(error.detail);
+
+    this.logger.error(error);
+    throw new InternalServerErrorException('Unexpected error, check server logs');
+  }
 }

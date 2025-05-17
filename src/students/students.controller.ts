@@ -1,5 +1,13 @@
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  ParseUUIDPipe
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -27,7 +35,7 @@ export class StudentsController {
   @Post()
   @Auth(ValidRoles.admin)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Crear un nuevo estudiante',
     description: 'Crea un nuevo estudiante en el sistema. Solo accesible para administradores.\nURL: POST /api/students'
   })
@@ -40,21 +48,27 @@ export class StudentsController {
           name: "Juan Pérez",
           age: 20,
           email: "juan.perez@example.com",
-          subjects: ["Matemáticas", "Física"],
           gender: "Male",
-          nickname: "juanp20"
+          nickname: "juanp20",
+          enrollments: [
+            {
+              courseId: "curso-uuid-1234",
+              enrolledAt: "2025-05-17",
+              score: 95
+            }
+          ]
         },
-        summary: "Ejemplo de registro de estudiante"
+        summary: "Ejemplo de registro de estudiante con matrícula"
       }
     }
   })
-  @ApiResponse({ 
-    status: 201, 
+  @ApiResponse({
+    status: 201,
     description: 'Estudiante creado correctamente.',
     type: Student
   })
-  @ApiResponse({ 
-    status: 400, 
+  @ApiResponse({
+    status: 400,
     description: 'Datos inválidos en el payload.',
     schema: {
       example: {
@@ -64,8 +78,8 @@ export class StudentsController {
       }
     }
   })
-  @ApiResponse({ 
-    status: 401, 
+  @ApiResponse({
+    status: 401,
     description: 'No autorizado.',
     schema: {
       example: {
@@ -82,31 +96,31 @@ export class StudentsController {
   @Get()
   @Auth(ValidRoles.admin)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Listar estudiantes',
     description: 'Obtiene la lista de estudiantes con paginación. Solo accesible para administradores.\nURL: GET /api/students'
   })
-  @ApiQuery({ 
-    name: 'limit', 
-    required: false, 
-    type: Number, 
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
     description: 'Número máximo de resultados',
     example: 10
   })
-  @ApiQuery({ 
-    name: 'offset', 
-    required: false, 
-    type: Number, 
+  @ApiQuery({
+    name: 'offset',
+    required: false,
+    type: Number,
     description: 'Número de resultados a omitir',
     example: 0
   })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Lista de estudiantes retornada.',
     type: [Student]
   })
-  @ApiResponse({ 
-    status: 401, 
+  @ApiResponse({
+    status: 401,
     description: 'No autorizado.'
   })
   findAll(@Query() paginationDto: PaginationDto) {
@@ -116,27 +130,27 @@ export class StudentsController {
   @Get(':term')
   @Auth(ValidRoles.admin, ValidRoles.teacher)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Buscar estudiante',
     description: 'Busca un estudiante por UUID, nombre o nickname. Accesible para profesores y administradores.\nURL: GET /api/students/:term'
   })
-  @ApiParam({ 
-    name: 'term', 
+  @ApiParam({
+    name: 'term',
     description: 'Término de búsqueda (UUID, nombre o nickname)',
     example: 'juan.perez@example.com'
   })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Estudiante encontrado.',
     type: Student
   })
-  @ApiResponse({ 
-    status: 404, 
+  @ApiResponse({
+    status: 404,
     description: 'Estudiante no encontrado.',
     schema: {
       example: {
         statusCode: 404,
-        message: 'Estudiante no encontrado',
+        message: 'Student with term not found',
         error: 'Not Found'
       }
     }
@@ -148,12 +162,12 @@ export class StudentsController {
   @Patch(':id')
   @Auth(ValidRoles.admin)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Actualizar estudiante',
     description: 'Actualiza los datos de un estudiante existente. Solo accesible para administradores.\nURL: PATCH /api/students/:id'
   })
-  @ApiParam({ 
-    name: 'id', 
+  @ApiParam({
+    name: 'id',
     description: 'UUID del estudiante',
     example: '123e4567-e89b-12d3-a456-426614174000'
   })
@@ -164,19 +178,26 @@ export class StudentsController {
       ejemplo1: {
         value: {
           age: 21,
-          subjects: ["Matemáticas", "Física", "Química"]
+          nickname: "juanp21",
+          enrollments: [
+            {
+              courseId: "curso-uuid-5678",
+              enrolledAt: "2025-05-10",
+              score: 88
+            }
+          ]
         },
-        summary: "Actualización parcial de estudiante"
+        summary: "Actualización parcial de estudiante con nuevas matrículas"
       }
     }
   })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Estudiante actualizado correctamente.',
     type: Student
   })
-  @ApiResponse({ 
-    status: 404, 
+  @ApiResponse({
+    status: 404,
     description: 'Estudiante no encontrado.'
   })
   update(
@@ -189,17 +210,17 @@ export class StudentsController {
   @Delete(':id')
   @Auth(ValidRoles.admin)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Eliminar estudiante',
     description: 'Elimina permanentemente un estudiante del sistema. Solo accesible para administradores.\nURL: DELETE /api/students/:id'
   })
-  @ApiParam({ 
-    name: 'id', 
+  @ApiParam({
+    name: 'id',
     description: 'UUID del estudiante a eliminar',
     example: '123e4567-e89b-12d3-a456-426614174000'
   })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Estudiante eliminado correctamente.',
     schema: {
       example: {
@@ -207,8 +228,8 @@ export class StudentsController {
       }
     }
   })
-  @ApiResponse({ 
-    status: 404, 
+  @ApiResponse({
+    status: 404,
     description: 'Estudiante no encontrado.'
   })
   remove(@Param('id', ParseUUIDPipe) id: string) {

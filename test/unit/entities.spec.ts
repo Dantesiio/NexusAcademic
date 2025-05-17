@@ -1,5 +1,5 @@
 import { Course } from '../../src/courses/entities/course.entity';
-import { Grade } from '../../src/students/entities/grade.entity';
+import { Grade } from '../../src/students/entities/enrollment.entity';
 import { Student } from '../../src/students/entities/student.entity';
 import { Submission } from '../../src/submissions/entities/submission.entity';
 import { User } from '../../src/auth/entities/user.entity';

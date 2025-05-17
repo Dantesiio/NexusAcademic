@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../auth/entities/user.entity';
 import { CourseStatus } from '../enums/course-status.enum';
+import { Enrollment } from 'src/students/entities/enrollment.entity';
 
 @Entity('courses')
 @Unique(['code'])
@@ -85,4 +87,7 @@ export class Course {
   })
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
+enrollments: Enrollment[];
 }

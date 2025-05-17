@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StudentsService } from '../students/students.service';
 import { Student } from '../students/entities/student.entity';
-import { Grade } from '../students/entities/grade.entity';
+import { Enrollment } from './entities/enrollment.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { BadRequestException, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
@@ -12,7 +12,7 @@ import { PaginationDto } from '../commons/dto/pagination.dto';
 describe('StudentsService', () => {
   let service: StudentsService;
   let studentRepository: Repository<Student>;
-  let gradeRepository: Repository<Grade>;
+  let enrollmentRepository: Repository<Enrollment>;
   let dataSource: DataSource;
 
   // Mock para QueryRunner
@@ -74,7 +74,7 @@ describe('StudentsService', () => {
 
     service = module.get<StudentsService>(StudentsService);
     studentRepository = module.get<Repository<Student>>(getRepositoryToken(Student));
-    gradeRepository = module.get<Repository<Grade>>(getRepositoryToken(Grade));
+    enrollmentRepository = module.get<Repository<Enrollment>>(getRepositoryToken(Enrollment));
     dataSource = module.get<DataSource>(DataSource);
 
     // Mock del Logger para evitar que imprima errores en la consola durante las pruebas
@@ -94,12 +94,7 @@ describe('StudentsService', () => {
       name: 'John Doe',
       age: 20,
       email: 'john@example.com',
-      subjects: ['Math', 'Science'],
       gender: 'Male',
-      grades: [
-        { subject: 'Math', grade: 4.5 },
-        { subject: 'Science', grade: 4.2 },
-      ],
     };
 
     const student = {

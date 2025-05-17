@@ -5,7 +5,7 @@ import { StudentsService } from '../students/students.service';
 import { StudentsController } from '../students/students.controller';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Student } from '../students/entities/student.entity';
-import { Grade } from '../students/entities/grade.entity';
+import { Grade } from './entities/enrollment.entity';
 import { DataSource } from 'typeorm';
 
 describe('StudentsModule', () => {

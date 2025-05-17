@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { StudentsService } from '../students/students.service';
 import { Student } from '../students/entities/student.entity';
-import { Grade } from '../students/entities/grade.entity';
+import { Grade } from './entities/enrollment.entity';
 import { DataSource, QueryRunner } from 'typeorm';
 import { UpdateStudentDto } from '../students/dto/update-student.dto';
 

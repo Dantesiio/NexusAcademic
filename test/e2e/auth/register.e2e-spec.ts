@@ -19,7 +19,7 @@ describe('AuthModule Register (e2e)', () => {
   let adminToken: string;
 
   const testingUser = {
-    email: 'cami@mail.com',
+    email: 'cami123@ggmail.com',
     password: 'Abc12345',
     fullName: 'Testing user',
   };
@@ -101,7 +101,7 @@ describe('AuthModule Register (e2e)', () => {
 
     expect(response.status).toBe(400);
     // Adaptado al mensaje en español
-    expect(response.body.message).toContain('llave (email)=(');
+    expect(response.body.message).toContain('already exists');
   });
 
   // MODIFICACIÓN: Adaptar el test de contraseña insegura

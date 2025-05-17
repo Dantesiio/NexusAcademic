@@ -1,6 +1,6 @@
 // src/students/entities/student.entity.spec.ts
 import { Student } from './student.entity';
-import { Grade } from './grade.entity';
+import { Grade } from './enrollment.entity';
 
 describe('Student Entity', () => {
   let student: Student;

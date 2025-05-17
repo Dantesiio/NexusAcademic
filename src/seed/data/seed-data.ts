@@ -1,4 +1,4 @@
-import { Grade } from "src/students/entities/grade.entity";
+import { Grade } from "src/students/entities/enrollment.entity";
 
 interface SeedStudent{
 
