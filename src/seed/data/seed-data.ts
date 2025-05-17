@@ -1,176 +1,142 @@
-import { Grade } from "src/students/entities/enrollment.entity";
+import { Enrollment } from "src/students/entities/enrollment.entity";
 
-interface SeedStudent{
-
-        name:string;
-        age: number;
-        email: string;
-        subjects: string[];
-        gender: 'Male' | 'Female' | 'Other';
-        nickname?:string;
-        grades: Grade[];
+interface SeedEnrollment {
+  courseId: string;
+  enrolledAt: string;
+  score?: number;
 }
 
+interface SeedStudent {
+  name: string;
+  age: number;
+  email: string;
+  gender: 'Male' | 'Female' | 'Other';
+  nickname?: string;
+  enrollments: SeedEnrollment[];
+}
 
 interface SeedData {
-    students: SeedStudent[];
+  students: SeedStudent[];
 }
 
 export const initialData: SeedData = {
-    students: [
+  students: [
+    {
+      name: "Gus",
+      age: 33,
+      email: "gus@gmail.com",
+      gender: "Male",
+      enrollments: [
         {
-            name: "Gus",
-            age: 33,
-            email: "gus@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Male",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-01",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Valentina",
+      age: 21,
+      email: "valentina@gmail.com",
+      gender: "Female",
+      enrollments: [
         {
-            name: "Valentina",
-            age: 21,
-            email: "valentina@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Female",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-03",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Alejandro",
+      age: 20,
+      email: "alejandro@gmail.com",
+      gender: "Male",
+      enrollments: [
         {
-            name: "Alejandro",
-            age: 20,
-            email: "alejandro@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Male",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-05",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Daniela",
+      age: 22,
+      email: "daniela@gmail.com",
+      gender: "Female",
+      enrollments: [
         {
-            name: "Daniela",
-            age: 22,
-            email: "daniela@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Female",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-07",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Samuel",
+      age: 23,
+      email: "samuel@gmail.com",
+      gender: "Male",
+      enrollments: [
         {
-            name: "Samuel",
-            age: 23,
-            email: "samuel@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Male",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-09",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Isabella",
+      age: 20,
+      email: "isabella@gmail.com",
+      gender: "Female",
+      enrollments: [
         {
-            name: "Isabella",
-            age: 20,
-            email: "isabella@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Female",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-11",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Jonathan",
+      age: 21,
+      email: "jonathan@gmail.com",
+      gender: "Male",
+      enrollments: [
         {
-            name: "Jonathan",
-            age: 21,
-            email: "jonathan@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Male",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-13",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Leidy",
+      age: 22,
+      email: "leidy@gmail.com",
+      gender: "Female",
+      enrollments: [
         {
-            name: "Leidy",
-            age: 22,
-            email: "leidy@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Female",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-15",
+          score: 4.2,
+        }
+      ],
+    },
+    {
+      name: "Miguel",
+      age: 20,
+      email: "miguel@gmail.com",
+      gender: "Male",
+      enrollments: [
         {
-            name: "Miguel",
-            age: 20,
-            email: "miguel@gmail.com",
-            subjects: ["math", "P.E"],
-            gender: "Male",
-            grades: [
-                {
-                    subject: "P.E",
-                    grade: 4.2
-                },
-                {
-                    subject: "Math",
-                    grade: 4.2 
-                }
-            ]
-        },
-
-    ]
-}
+          courseId: "<REPLACE_WITH_COURSE_UUID>",
+          enrolledAt: "2025-05-17",
+          score: 4.2,
+        }
+      ],
+    },
+  ],
+};
