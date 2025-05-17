@@ -21,11 +21,11 @@ import { SubmissionsModule } from './submissions/submissions.module';
       autoLoadEntities: true,
       synchronize: true, 
       // Only use SSL in non-test environments
-      ...(process.env.NODE_ENV !== 'test' && {
+      /*...(process.env.NODE_ENV !== 'test' && {
         ssl: {
           rejectUnauthorized: false,
         }
-      }),
+      }),*/
       
     }),
     StudentsModule,

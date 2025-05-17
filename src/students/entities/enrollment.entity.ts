@@ -16,14 +16,14 @@ export class Enrollment {
     description: 'Estudiante matriculado',
     type: () => Student,
   })
-  @ManyToOne(() => Student, (student) => student.enrollments, { eager: true })
+  @ManyToOne(() => Student, (student) => student.enrollments)
   student: Student;
 
   @ApiProperty({
     description: 'Curso en el que se matriculó el estudiante',
     type: () => Course,
   })
-  @ManyToOne(() => Course, (course) => course.enrollments, { eager: true })
+  @ManyToOne(() => Course, (course) => course.enrollments)
   course: Course;
 
   @ApiProperty({
