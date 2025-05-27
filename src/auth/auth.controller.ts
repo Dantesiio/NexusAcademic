@@ -14,7 +14,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @Auth(ValidRoles.admin, ValidRoles.superUser)
+  //@Auth(ValidRoles.admin, ValidRoles.superUser)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ 
     summary: 'Registrar un nuevo usuario',

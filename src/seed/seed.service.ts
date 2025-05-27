@@ -4,6 +4,7 @@ import { initialData } from './data/seed-data';
 import { Student } from '../students/entities/student.entity';
 import { AuthService } from '../auth/auth.service';
 import { CoursesService } from '../courses/service/courses.service';
+import { ValidRoles } from '../auth/enums/valid-roles.enum';
 
 @Injectable()
 export class SeedService {
@@ -15,8 +16,27 @@ export class SeedService {
   ){}
 
   async runSeed() {
-    // 1. Crear profesores
+    // 0. Crear admin por defecto
     await this.deleteAll();
+    const adminData = {
+      email: 'admin@nexus.com',
+      password: 'Admin123',
+      fullName: 'Administrador Nexus',
+    };
+    // Crear admin
+    const adminUser = await this.authService.create(adminData);
+    if (!adminUser || !adminUser.id) {
+      throw new Error('No se pudo crear el usuario admin');
+    }
+    // Asignar roles admin y super-user
+    if (this.authService['userRepository']) {
+      await this.authService['userRepository'].update(
+        { id: adminUser.id },
+        { roles: [ValidRoles.admin, ValidRoles.superUser], isActive: true }
+      );
+    }
+
+    // 1. Crear profesores
     const teachers = [
       {
         email: 'teacher1@nexus.com',
@@ -105,14 +125,15 @@ export class SeedService {
       await this.coursesService['courseRepo'].delete({});
     }
 
-    // Borra usuarios (profesores)
-    const teacherEmails = [
+    // Borra usuarios (profesores y admin)
+    const emails = [
       'teacher1@nexus.com',
       'teacher2@nexus.com',
       'teacher3@nexus.com',
+      'admin@nexus.com',
     ];
     if (this.authService['userRepository']) {
-      for (const email of teacherEmails) {
+      for (const email of emails) {
         await this.authService['userRepository'].delete({ email });
       }
     }
