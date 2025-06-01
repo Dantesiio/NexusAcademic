@@ -41,6 +41,10 @@ async function bootstrap() {
       transform: true,
     })
   )
+  app.enableCors({
+    origin: 'http://localhost:3001', // El puerto de tu frontend
+    credentials: true,
+  });
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
   console.log(`API Docs Swagger: ${await app.getUrl()}/api-docs`);
