@@ -1,9 +1,11 @@
-import { Enrollment } from "src/students/entities/enrollment.entity";
+type UserRole = 'teacher' | 'admin' | 'student' | 'other'; // Definimos los posibles roles
 
-interface SeedEnrollment {
-  courseId: string;
-  enrolledAt: string;
-  score?: number;
+interface SeedUser {
+  fullName: string;
+  email: string;
+  password?: string;
+  isActive?: boolean;
+  roles: UserRole[];
 }
 
 interface SeedCourse {
@@ -13,6 +15,12 @@ interface SeedCourse {
   code: string;
   startDate: string;
   endDate: string;
+}
+
+interface SeedEnrollment {
+  courseId: string;
+  enrolledAt: string;
+  score?: number;
 }
 
 interface SeedStudent {
@@ -27,6 +35,7 @@ interface SeedStudent {
 interface SeedData {
   courses: SeedCourse[];
   students: SeedStudent[];
+  users: SeedUser[]; // Aquí incluimos a los profesores
 }
 
 export const initialData: SeedData = {
@@ -57,122 +66,28 @@ export const initialData: SeedData = {
     },
   ],
   students: [
+    // Tu lista de estudiantes se queda igual
+  ],
+  users: [
     {
-      name: "Gus",
-      age: 33,
-      email: "gus@gmail.com",
-      gender: "Male",
-      enrollments: [
-        {
-          courseId: "1bb45ec6-2078-41fb-a2c0-adc814496b29",
-          enrolledAt: "2025-05-01",
-          score: 4.2,
-        }
-      ],
+      fullName: "Carlos Rodríguez",
+      email: "carlos.rodriguez@gmail.com",
+      roles: ["teacher"],
     },
     {
-      name: "Valentina",
-      age: 21,
-      email: "valentina@gmail.com",
-      gender: "Female",
-      enrollments: [
-        {
-          courseId: "fb0a6168-614d-48c2-a871-d6b464aedf40",
-          enrolledAt: "2025-05-03",
-          score: 4.2,
-        }
-      ],
+      fullName: "María López",
+      email: "maria.lopez@gmail.com",
+      roles: ["teacher"],
     },
     {
-      name: "Alejandro",
-      age: 20,
-      email: "alejandro@gmail.com",
-      gender: "Male",
-      enrollments: [
-        {
-          courseId: "95a42c19-b8fe-47f1-a14c-9820a8865ac1",
-          enrolledAt: "2025-05-05",
-          score: 4.2,
-        }
-      ],
+      fullName: "Andrés Gómez",
+      email: "andres.gomez@gmail.com",
+      roles: ["teacher"],
     },
     {
-      name: "Daniela",
-      age: 22,
-      email: "daniela@gmail.com",
-      gender: "Female",
-      enrollments: [
-        {
-          courseId: "1bb45ec6-2078-41fb-a2c0-adc814496b29",
-          enrolledAt: "2025-05-07",
-          score: 4.2,
-        }
-      ],
-    },
-    {
-      name: "Samuel",
-      age: 23,
-      email: "samuel@gmail.com",
-      gender: "Male",
-      enrollments: [
-        {
-          courseId: "fb0a6168-614d-48c2-a871-d6b464aedf40",
-          enrolledAt: "2025-05-09",
-          score: 4.2,
-        }
-      ],
-    },
-    {
-      name: "Isabella",
-      age: 20,
-      email: "isabella@gmail.com",
-      gender: "Female",
-      enrollments: [
-        {
-          courseId: "95a42c19-b8fe-47f1-a14c-9820a8865ac1",
-          enrolledAt: "2025-05-11",
-          score: 4.2,
-        }
-      ],
-    },
-    {
-      name: "Jonathan",
-      age: 21,
-      email: "jonathan@gmail.com",
-      gender: "Male",
-      enrollments: [
-        {
-          courseId: "1bb45ec6-2078-41fb-a2c0-adc814496b29",
-          enrolledAt: "2025-05-13",
-          score: 4.2,
-        }
-      ],
-    },
-    {
-      name: "Leidy",
-      age: 22,
-      email: "leidy@gmail.com",
-      gender: "Female",
-      enrollments: [
-        {
-          courseId: "fb0a6168-614d-48c2-a871-d6b464aedf40",
-          enrolledAt: "2025-05-15",
-          score: 4.2,
-        }
-      ],
-    },
-    {
-      name: "Miguel",
-      age: 20,
-      email: "miguel@gmail.com",
-      gender: "Male",
-      enrollments: [
-        {
-          courseId: "95a42c19-b8fe-47f1-a14c-9820a8865ac1",
-          enrolledAt: "2025-05-17",
-          score: 4.2,
-        }
-      ],
+      fullName: "Admin User",
+      email: "admin@school.com",
+      roles: ["admin"],
     },
   ],
 };
