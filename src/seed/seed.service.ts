@@ -1,9 +1,11 @@
+// src/seed/seed.service.ts
 import { Injectable } from '@nestjs/common';
 import { StudentsService } from '../students/students.service';
 import { initialData } from './data/seed-data';
 import { Student } from '../students/entities/student.entity';
 import { AuthService } from '../auth/auth.service';
 import { CoursesService } from '../courses/service/courses.service';
+import { SubmissionsService } from '../submissions/service/submissions.service'; // ← Agregar import
 import { ValidRoles } from '../auth/enums/valid-roles.enum';
 
 @Injectable()
@@ -13,6 +15,7 @@ export class SeedService {
     private readonly studentService: StudentsService,
     private readonly authService: AuthService,
     private readonly coursesService: CoursesService,
+    private readonly submissionsService: SubmissionsService, // ← Agregar inyección
   ){}
 
   async runSeed() {
@@ -66,7 +69,7 @@ export class SeedService {
       }
     }
 
-    // 1. Crear cursos
+    // 2. Crear cursos
     for (let idx = 0; idx < initialData.courses.length; idx++) {
       const courseSeed = initialData.courses[idx];
       const courseToCreate = {
@@ -76,9 +79,9 @@ export class SeedService {
       await this.coursesService.create(courseToCreate);
     }
 
-    // 2. Obtener mapping de code a entidad Course real
+    // 3. Obtener mapping de course codes a IDs reales
     const allCourses = await this.coursesService['courseRepo'].find();
-    const courseIdMap: Record<number, string> = {};
+    const courseIdMap: Record<string, string> = {}; // ← Corregir tipado
     for (const courseSeed of initialData.courses) {
       const realCourse = allCourses.find(c => c.code === courseSeed.code);
       if (realCourse) {
@@ -86,11 +89,11 @@ export class SeedService {
       }
     }
 
-    // 3. Crear estudiantes, asociando el UUID real en cada enrollment
+    // 4. Crear estudiantes con enrollments corregidos
     const students = initialData.students.map(student => ({
       ...student,
       enrollments: student.enrollments.map(enrollment => {
-        const realCourseId = courseIdMap[enrollment.courseId]; // Este es el paso clave
+        const realCourseId = courseIdMap[enrollment.courseId];
         if (!realCourseId) throw new Error('No se encontró el curso para el enrollment');
         return {
           ...enrollment,
@@ -98,21 +101,77 @@ export class SeedService {
         };
       }),
     }));
-    // 4. Crear estudiantes con enrollments corregidos
+
     const insertPromises: Promise<Student | undefined>[] = [];
     students.forEach(student => {
       insertPromises.push(this.studentService.create(student));
     });
-    await Promise.all(insertPromises);
+    const createdStudents = await Promise.all(insertPromises);
+
+    // 5. ← NUEVA SECCIÓN: Crear submissions
+    console.log('Creating submissions...');
+    
+    // Crear mapping de studentEmail a studentId
+    const studentEmailToIdMap: Record<string, string> = {};
+    for (const studentSeed of initialData.students) {
+      const createdStudent = createdStudents.find(s => s?.email === studentSeed.email);
+      if (createdStudent) {
+        studentEmailToIdMap[studentSeed.email] = createdStudent.id;
+      }
+    }
+
+    // Crear submissions
+    for (const submissionSeed of initialData.submissions) {
+      try {
+        const realCourseId = courseIdMap[submissionSeed.courseId];
+        const realStudentId = studentEmailToIdMap[submissionSeed.studentEmail];
+        
+        if (!realCourseId || !realStudentId) {
+          console.warn(`Skipping submission: courseId=${realCourseId}, studentId=${realStudentId}`);
+          continue;
+        }
+
+        const submissionData = {
+          courseId: realCourseId,
+          studentId: realStudentId,
+          fileUrl: submissionSeed.fileUrl,
+          comments: submissionSeed.comments || '',
+        };
+
+        const createdSubmission = await this.submissionsService.create(submissionData);
+        
+        // Si tiene calificación, aplicarla
+        if (submissionSeed.grade !== undefined) {
+          await this.submissionsService.grade(createdSubmission.id, {
+            grade: submissionSeed.grade,
+            comments: submissionSeed.comments || '',
+          });
+        }
+
+        // Actualizar la fecha de envío si es diferente
+        if (submissionSeed.submittedAt) {
+          await this.submissionsService['subRepo'].update(
+            { id: createdSubmission.id },
+            { submittedAt: new Date(submissionSeed.submittedAt) }
+          );
+        }
+
+        console.log(`✅ Submission created for ${submissionSeed.studentEmail}`);
+      } catch (error) {
+        console.error(`❌ Error creating submission for ${submissionSeed.studentEmail}:`, error.message);
+      }
+    }
+
     return 'SEED EXECUTED';
   }
 
   async deleteAll() {
-    // Borra submissions si tienes el repositorio
-    if (this.coursesService['subRepo']) {
-      await this.coursesService['subRepo'].delete({});
+    // Borra submissions primero (por las relaciones)
+    if (this.submissionsService['subRepo']) {
+      await this.submissionsService['subRepo'].delete({});
     }
-    // Borra enrollments si tienes el repositorio
+
+    // Borra enrollments
     if (this.coursesService['enrollmentRepo']) {
       await this.coursesService['enrollmentRepo'].delete({});
     }

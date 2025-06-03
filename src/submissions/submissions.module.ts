@@ -1,3 +1,4 @@
+// src/submissions/submissions.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Submission } from './entities/submission.entity';
@@ -16,5 +17,6 @@ import { AuthModule } from '../auth/auth.module';
   ],
   providers: [SubmissionsService],
   controllers: [SubmissionsController],
+  exports: [SubmissionsService], // ← Agregar export
 })
 export class SubmissionsModule {}
